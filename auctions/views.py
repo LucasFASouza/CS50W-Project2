@@ -5,6 +5,7 @@ from django.shortcuts import render
 from django.urls import reverse
 
 from .models import User, Listing
+from . import forms
 
 
 def index(request):
@@ -71,4 +72,10 @@ def listing(request, listing_id):
     return render(request, "auctions/listing.html", {
         "listing": auction,
         "bidings": bidings
+    })
+
+
+def add_listing(request):
+    return render(request, "auctions/add.html", {
+        "form": forms.NewListing()
     })
