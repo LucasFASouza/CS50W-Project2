@@ -4,7 +4,7 @@
 *.pyc
 __pycache__
 auctions/__pycache__
-commerce/__pycache__
+commerce/__pycache__/*.pyc
 db.sqlite3
 media
 
