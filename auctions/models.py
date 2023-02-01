@@ -7,11 +7,6 @@ class User(AbstractUser):
 
 
 class Listing(models.Model):
-    title = models.CharField(max_length=64)
-    description = models.CharField(max_length=256)
-    initial_bid = models.DecimalField(max_digits=6, decimal_places=2, default=0.00)
-    photo_url = models.URLField(blank=True)
-
     CATEGORIES_CHOICES = [
         ('Fashion', 'Fashion'),
         ('Home', 'Home'),
@@ -19,9 +14,14 @@ class Listing(models.Model):
         ('Toys', 'Toys'),
         ('Other', 'Other'),
     ]
-    category = models.CharField(choices=CATEGORIES_CHOICES, max_length=24, blank=True)
 
+    title = models.CharField(max_length=64)
+    description = models.CharField(max_length=256)
+    initial_bid = models.DecimalField(max_digits=6, decimal_places=2, default=0.00)
+    photo_url = models.URLField(blank=True)
+    category = models.CharField(choices=CATEGORIES_CHOICES, max_length=24, blank=True)
     seller = models.ForeignKey(User, on_delete=models.CASCADE, related_name="listings")
+    price = models.DecimalField(max_digits=6, decimal_places=2, blank=True)
 
     def __str__(self):
         return f"{self.title}: {self.description}"

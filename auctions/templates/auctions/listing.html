@@ -8,8 +8,19 @@
         <li>Seller: {{ listing.seller }}</li>
         {% if listing.category %}
             <li>Category: {{ listing.category }}</li>
+        {% else %}
+            <li>Category: Category not listed</li>
         {% endif %}
+        <li>Price: {{ listing.price }}</li>
     </ul>
+
+    <h2>Place bid</h2>
+    <form action="{% url 'bid' listing.id %}" method="post">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit">
+    </form>
+
 
     <h2>Bidings</h2>
     <ul>
@@ -19,6 +30,4 @@
             <li>Minimal bid: {{ listing.initial_bid }}</li>
         {% endfor %}
     </ul>
-
-    <a href="{% url 'index' %}">All Listings</a>
 {% endblock %}

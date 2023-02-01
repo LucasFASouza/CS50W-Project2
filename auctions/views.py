@@ -71,9 +71,11 @@ def register(request):
 def listing(request, listing_id):
     auction = Listing.objects.get(id=listing_id)
     bidings = auction.bidings.all()
+
     return render(request, "auctions/listing.html", {
         "listing": auction,
-        "bidings": bidings
+        "bidings": bidings,
+        "form": forms.NewBid(item=auction)
     })
 
 
@@ -84,6 +86,7 @@ def add_listing(request):
         if form.is_valid():
             obj = form.save(commit=False)
             obj.seller = request.user
+            obj.price = obj.initial_bid
             obj.save()
             return HttpResponseRedirect(reverse("index"))
     else:
@@ -92,3 +95,28 @@ def add_listing(request):
     return render(request, "auctions/add.html", {
         "form": form
     })
+
+
+@login_required
+def place_bid(request, listing_id):
+    if request.method == "POST":
+        item = Listing.objects.get(id=listing_id)
+        form = forms.NewBid(request.POST, item=item)
+
+        if form.is_valid():
+            obj = form.save(commit=False)
+            obj.buyer = request.user
+            obj.item = item
+            obj.save()
+
+            item.price = obj.value
+            item.save()
+
+            return HttpResponseRedirect(reverse("listing", kwargs={'listing_id': listing_id}))
+
+        else:
+            return render(request, "auctions/listing.html", {
+                "listing": item,
+                "bidings": item.bidings.all(),
+                "form": form
+            })
