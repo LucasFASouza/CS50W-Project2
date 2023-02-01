@@ -101,11 +101,12 @@ def add_listing(request):
 def place_bid(request, listing_id):
     if request.method == "POST":
         item = Listing.objects.get(id=listing_id)
-        form = forms.NewBid(request.POST, item=item)
+        buyer = request.user
+        form = forms.NewBid(request.POST, item=item, buyer=buyer)
 
         if form.is_valid():
             obj = form.save(commit=False)
-            obj.buyer = request.user
+            obj.buyer = buyer
             obj.item = item
             obj.save()
 
