@@ -75,7 +75,7 @@ def listing(request, listing_id):
     return render(request, "auctions/listing.html", {
         "listing": auction,
         "bidings": bidings,
-        "form": forms.NewBid(item=auction)
+        "form": forms.NewBid(item=auction, buyer=request.user),
     })
 
 

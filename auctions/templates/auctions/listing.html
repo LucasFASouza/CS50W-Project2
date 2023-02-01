@@ -1,6 +1,10 @@
 {% extends "auctions/layout.html" %}
 
 {% block body %}
+    {% if user.is_authenticated and listing.seller == user %}
+        <a>Close auction</a>
+    {% endif %}
+
     <h2>{{ listing.title }}</h2>
     <img src="{{ listing.photo_url }}" width="256">
     <ul>

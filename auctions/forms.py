@@ -11,9 +11,7 @@ class NewListing(forms.ModelForm):
 class NewBid(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         self.item = kwargs.pop('item')
-
-        if kwargs['buyer']:
-            self.buyer = kwargs.pop('buyer')
+        self.buyer = kwargs.pop('buyer')
 
         super(NewBid, self).__init__(*args, **kwargs)
 

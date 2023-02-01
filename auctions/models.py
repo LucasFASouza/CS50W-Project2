@@ -22,6 +22,7 @@ class Listing(models.Model):
     category = models.CharField(choices=CATEGORIES_CHOICES, max_length=24, blank=True)
     seller = models.ForeignKey(User, on_delete=models.CASCADE, related_name="listings")
     price = models.DecimalField(max_digits=6, decimal_places=2, blank=True)
+    isActive = models.BooleanField(default=True)
 
     def __str__(self):
         return f"{self.title}: {self.description}"
