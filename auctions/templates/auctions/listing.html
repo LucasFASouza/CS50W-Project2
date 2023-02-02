@@ -26,11 +26,22 @@
         <h2>Place bid</h2>
         <form action="{% url 'bid' listing.id %}" method="post">
             {% csrf_token %}
-            {{ form }}
+            {{ bid_form }}
             <input type="submit">
         </form>
     {% endif %}
 
+    <h2>Comments</h2>
+    <form action="{% url 'comment' listing.id %}" method="post">
+        {% csrf_token %}
+        {{ comment_form }}
+        <input type="submit">
+    </form>
+    <ul>
+        {% for comment in comments %}
+            <li>{{ comment }}</li>
+        {% endfor %}
+    </ul>
 
     <h2>Bidings</h2>
     <ul>

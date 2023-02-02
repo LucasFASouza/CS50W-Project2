@@ -6,7 +6,7 @@ from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 
 
-from .models import User, Listing
+from .models import User, Listing, Comment
 from . import forms
 
 
@@ -71,12 +71,20 @@ def register(request):
 def listing(request, listing_id):
     auction = Listing.objects.get(id=listing_id)
     bidings = auction.bidings.all()
+    comments = auction.comments.all()
+
+    if not bidings:
+        last_bid = ''
+    else:
+        last_bid = bidings.latest('value')
 
     return render(request, "auctions/listing.html", {
         "listing": auction,
         "bidings": bidings,
-        "last_bid": bidings.latest('value'),
-        "form": forms.NewBid(item=auction, buyer=request.user),
+        "last_bid": last_bid,
+        "bid_form": forms.NewBid(item=auction, buyer=request.user),
+        "comment_form": forms.NewComment(),
+        "comments": comments,
     })
 
 
@@ -105,6 +113,7 @@ def place_bid(request, listing_id):
         buyer = request.user
         bidings = item.bidings.all()
         form = forms.NewBid(request.POST, item=item, buyer=buyer)
+        comments = item.comments.all()
 
         if form.is_valid():
             obj = form.save(commit=False)
@@ -123,14 +132,30 @@ def place_bid(request, listing_id):
                 "listing": item,
                 "bidings": bidings,
                 "last_bid": bidings.latest('value'),
-                "form": form
+                "bid_form": form,
+                "comment_form": forms.NewComment(),
+                "comments": comments,
             })
 
 
 @login_required
-def close_auction(request, listing_id):
+def close_auction(listing_id):
     auction = Listing.objects.get(id=listing_id)
     auction.active = False
     auction.save()
 
     return HttpResponseRedirect(reverse("index"))
+
+
+@login_required()
+def add_comment(request, listing_id):
+    if request.method == "POST":
+        auction = Listing.objects.get(id=listing_id)
+        form = forms.NewComment(request.POST)
+        if form.is_valid():
+            obj = form.save(commit=False)
+            obj.user = request.user
+            obj.auction = auction
+            obj.save()
+
+        return HttpResponseRedirect(reverse("listing", kwargs={'listing_id': listing_id}))

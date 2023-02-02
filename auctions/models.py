@@ -35,3 +35,12 @@ class Biding(models.Model):
 
     def __str__(self):
         return f"{self.buyer} bids ${self.value} in {self.item.title}"
+
+
+class Comment(models.Model):
+    text = models.TextField()
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="comments")
+    auction = models.ForeignKey(Listing, on_delete=models.CASCADE, related_name="comments")
+
+    def __str__(self):
+        return f"{self.text} - by: {self.user}"
