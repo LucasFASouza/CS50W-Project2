@@ -5,7 +5,7 @@
 
      <ul>
         {% for listing in listings %}
-            {% if listing.isActive %}
+            {% if listing.active %}
                 <li>
                     <img src="{{ listing.photo_url }}" width="128">
                     <div>
