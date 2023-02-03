@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.conf import settings
 
 
 class User(AbstractUser):
@@ -23,6 +24,7 @@ class Listing(models.Model):
     seller = models.ForeignKey(User, on_delete=models.CASCADE, related_name="listings")
     price = models.DecimalField(max_digits=8, decimal_places=2, blank=True)
     active = models.BooleanField(default=True)
+    favorite = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name="user_favorite", blank=True)
 
     def __str__(self):
         return f"{self.title}: {self.description}"

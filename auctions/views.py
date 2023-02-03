@@ -73,6 +73,7 @@ def listing(request, listing_id):
     bidings = auction.bidings.all()
     comments = auction.comments.all()
     user = request.user
+    is_favorite = user in auction.favorite.all()
 
     bid_form = forms.NewBid(item=auction, buyer=user)
     comment_form = forms.NewComment()
@@ -116,6 +117,7 @@ def listing(request, listing_id):
         "bid_form": bid_form,
         "comment_form": comment_form,
         "comments": comments,
+        "is_favorite": is_favorite,
     })
 
 
@@ -154,3 +156,24 @@ def categories(request, category):
         "category": category,
         "listings": Listing.objects.all()
     })
+
+
+def favorite(request, listing_id):
+    user = request.user
+
+    if user.is_authenticated:
+        auction = Listing.objects.get(id=listing_id)
+
+        if user in auction.favorite.all():
+            auction.favorite.remove(user)
+        else:
+            auction.favorite.add(user)
+
+    return HttpResponseRedirect(reverse("listing", kwargs={'listing_id': listing_id}))
+
+
+def watchlist(request):
+    return render(request, "auctions/watchlist.html", {
+        "watchlist": request.user.user_favorite.all()
+    })
+

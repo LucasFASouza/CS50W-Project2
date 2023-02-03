@@ -2,9 +2,15 @@
 
 {% block body %}
     {% if user.is_authenticated %}
-        {% if listing.active and listing.seller == user %}
-            <a href="{% url 'close' listing.id %}">Close auction</a>
-        {% elif not listing.active and bidings and last_bid.buyer == user %}
+        {% if listing.active %}
+            {% if listing.seller == user %}
+                <a href="{% url 'close' listing.id %}">Close auction</a>
+            {% elif is_favorite %}
+                <a href="{% url 'favorite' listing.id %}">Remove from watchlist</a>
+            {% else %}
+                <a href="{% url 'favorite' listing.id %}">Add to watchlist</a>
+            {% endif %}
+        {% elif bidings and last_bid.buyer == user %}
             <h5>You won this auction!</h5>
         {% endif %}
     {% endif %}
