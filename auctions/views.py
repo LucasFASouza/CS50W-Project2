@@ -138,9 +138,12 @@ def add_listing(request):
 
 
 @login_required
-def close_auction(listing_id):
+def close_auction(request, listing_id):
     auction = Listing.objects.get(id=listing_id)
-    auction.active = False
-    auction.save()
+    user = request.user
 
-    return HttpResponseRedirect(reverse("index"))
+    if user.is_authenticated and auction.seller == user:
+        auction.active = False
+        auction.save()
+
+    return HttpResponseRedirect(reverse("listing", kwargs={'listing_id': listing_id}))

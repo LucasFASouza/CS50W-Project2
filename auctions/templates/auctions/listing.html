@@ -29,19 +29,26 @@
             {{ bid_form }}
             <input type="submit" name="bid">
         </form>
-    {% endif %}
 
-    <h2>Comments</h2>
-    <form action="{% url 'listing' listing.id %}" method="post">
-        {% csrf_token %}
-        {{ comment_form }}
-        <input type="submit" name="comment">
-    </form>
-    <ul>
-        {% for comment in comments %}
-            <li>{{ comment }}</li>
-        {% endfor %}
-    </ul>
+        <h2>Comments</h2>
+        <form action="{% url 'listing' listing.id %}" method="post">
+            {% csrf_token %}
+            {{ comment_form }}
+            <input type="submit" name="comment">
+        </form>
+        <ul>
+            {% for comment in comments %}
+                <li>{{ comment }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <h2>Comments</h2>
+        <ul>
+            {% for comment in comments %}
+                <li>{{ comment }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
 
     <h2>Bidings</h2>
     <ul>
