@@ -72,18 +72,49 @@ def listing(request, listing_id):
     auction = Listing.objects.get(id=listing_id)
     bidings = auction.bidings.all()
     comments = auction.comments.all()
+    user = request.user
 
-    if not bidings:
-        last_bid = ''
-    else:
+    bid_form = forms.NewBid(item=auction, buyer=user)
+    comment_form = forms.NewComment()
+
+    try:
         last_bid = bidings.latest('value')
+    except:
+        last_bid = None
+
+    if request.method == "POST" and user.is_authenticated:
+        if 'bid' in request.POST:
+            bid_form = forms.NewBid(request.POST, item=auction, buyer=user)
+
+            if bid_form.is_valid():
+                bid = bid_form.save(commit=False)
+                bid.buyer = user
+                bid.item = auction
+                bid.save()
+
+                auction.price = bid.value
+                auction.buyer = user
+                auction.save()
+
+                return HttpResponseRedirect(reverse("listing", kwargs={'listing_id': listing_id}))
+
+        if 'comment' in request.POST:
+            comment_form = forms.NewComment(request.POST)
+
+            if comment_form.is_valid():
+                comment = comment_form.save(commit=False)
+                comment.user = user
+                comment.auction = auction
+                comment.save()
+
+                return HttpResponseRedirect(reverse("listing", kwargs={'listing_id': listing_id}))
 
     return render(request, "auctions/listing.html", {
         "listing": auction,
         "bidings": bidings,
         "last_bid": last_bid,
-        "bid_form": forms.NewBid(item=auction, buyer=request.user),
-        "comment_form": forms.NewComment(),
+        "bid_form": bid_form,
+        "comment_form": comment_form,
         "comments": comments,
     })
 
@@ -107,55 +138,9 @@ def add_listing(request):
 
 
 @login_required
-def place_bid(request, listing_id):
-    if request.method == "POST":
-        item = Listing.objects.get(id=listing_id)
-        buyer = request.user
-        bidings = item.bidings.all()
-        form = forms.NewBid(request.POST, item=item, buyer=buyer)
-        comments = item.comments.all()
-
-        if form.is_valid():
-            obj = form.save(commit=False)
-            obj.buyer = buyer
-            obj.item = item
-            obj.save()
-
-            item.price = obj.value
-            item.buyer = buyer
-            item.save()
-
-            return HttpResponseRedirect(reverse("listing", kwargs={'listing_id': listing_id}))
-
-        else:
-            return render(request, "auctions/listing.html", {
-                "listing": item,
-                "bidings": bidings,
-                "last_bid": bidings.latest('value'),
-                "bid_form": form,
-                "comment_form": forms.NewComment(),
-                "comments": comments,
-            })
-
-
-@login_required
 def close_auction(listing_id):
     auction = Listing.objects.get(id=listing_id)
     auction.active = False
     auction.save()
 
     return HttpResponseRedirect(reverse("index"))
-
-
-@login_required()
-def add_comment(request, listing_id):
-    if request.method == "POST":
-        auction = Listing.objects.get(id=listing_id)
-        form = forms.NewComment(request.POST)
-        if form.is_valid():
-            obj = form.save(commit=False)
-            obj.user = request.user
-            obj.auction = auction
-            obj.save()
-
-        return HttpResponseRedirect(reverse("listing", kwargs={'listing_id': listing_id}))

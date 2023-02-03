@@ -24,18 +24,18 @@
 
     {% if listing.active %}
         <h2>Place bid</h2>
-        <form action="{% url 'bid' listing.id %}" method="post">
+        <form action="{% url 'listing' listing.id %}" method="post">
             {% csrf_token %}
             {{ bid_form }}
-            <input type="submit">
+            <input type="submit" name="bid">
         </form>
     {% endif %}
 
     <h2>Comments</h2>
-    <form action="{% url 'comment' listing.id %}" method="post">
+    <form action="{% url 'listing' listing.id %}" method="post">
         {% csrf_token %}
         {{ comment_form }}
-        <input type="submit">
+        <input type="submit" name="comment">
     </form>
     <ul>
         {% for comment in comments %}
