@@ -147,3 +147,10 @@ def close_auction(request, listing_id):
         auction.save()
 
     return HttpResponseRedirect(reverse("listing", kwargs={'listing_id': listing_id}))
+
+
+def categories(request, category):
+    return render(request, "auctions/categories.html", {
+        "category": category,
+        "listings": Listing.objects.all()
+    })

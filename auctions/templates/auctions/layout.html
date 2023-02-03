@@ -35,6 +35,24 @@
                 </li>
             {% endif %}
         </ul>
+        <h6>Categories</h6>
+        <ul class="nav">
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'categories' 'Fashion' %}">Fashion</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'categories' 'Home' %}">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'categories' 'Fashion' %}">Fashion</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'categories' 'Electronics' %}">Electronics</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'categories' 'Other' %}">Other</a>
+            </li>
+        </ul>
         <hr>
         {% block body %}
         {% endblock %}
