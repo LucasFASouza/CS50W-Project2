@@ -3,5 +3,28 @@ body {
 }
 
 .listing {
-    background-color: red;
+    list-style-type: none;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.listing-card {
+    width: 256px;
+    height: 384px;
+    padding: 30px;
+}
+
+.card-image {
+    width: 100%;
+    height: 100%;
+}
+
+.description {
+   overflow: hidden;
+   text-overflow: ellipsis;
+   display: -webkit-box;
+   -webkit-line-clamp: 2; /* number of lines to show */
+           line-clamp: 2;
+   -webkit-box-orient: vertical;
 }

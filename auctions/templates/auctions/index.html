@@ -3,14 +3,17 @@
 {% block body %}
     <h2>Active Listings</h2>
 
-     <ul>
+     <ul class="listing">
         {% for listing in listings %}
             {% if listing.active %}
-                <li>
-                    <img src="{{ listing.photo_url }}" width="128">
+                <li class="listing-card">
+                    <img class="card-img" src="{{ listing.photo_url }}">
                     <div>
                         <a href="{% url 'listing' listing.id %}">{{ listing.title }}:</a>
-                        {{ listing.description }}, by {{ listing.seller }} - $ {{ listing.price }}
+                         <strong>$ {{ listing.price }}</strong>
+                    </div>
+                    <div>
+                        <p class="description">{{ listing.description }}</p>
                     </div>
                 </li>
              {% endif %}
