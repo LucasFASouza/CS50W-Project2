@@ -3,16 +3,27 @@
 {% block body %}
     <h2>{{ category }} Listings</h2>
 
-    <ul>
+    <ul class="listing">
         {% for listing in listings %}
             {% if listing.category == category and listing.active %}
-                <li>
-                    <img src="{{ listing.photo_url }}" width="128">
-                    <div>
-                        <a href="{% url 'listing' listing.id %}">{{ listing.title }}:</a>
-                        {{ listing.description }}, by {{ listing.seller }} - $ {{ listing.price }}
-                    </div>
-                </li>
+                <a href="{% url 'listing' listing.id %}">
+                    <li class="listing-card">
+                        <img class="card-img" src="{{ listing.photo_url }}" width="128">
+                        <div class="card-text">
+                            <h5 class="card-title">
+                                {{ listing.title }}
+                            </h5>
+
+                            <div>
+                                <strong>$ {{ listing.price }}</strong>
+                            </div>
+
+                            <div>
+                                <p class="card-description">{{ listing.description }}</p>
+                            </div>
+                        </div>
+                    </li>
+                </a>
              {% endif %}
         {% endfor %}
     </ul>

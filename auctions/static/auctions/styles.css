@@ -1,30 +1,112 @@
-body {
-    padding: 10px;
+a, a:hover {
+    text-decoration: none;
+    color: black;
 }
 
+body {
+  margin-top: 69px; /* Add a top margin to avoid content overlay */
+}
+
+/* Layout */
+.nav-item:hover {
+    font-weight: 500;
+}
+
+.topbar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 10px 20px;
+    box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+    position: fixed; /* Set the navbar to fixed position */
+    top: 0; /* Position the navbar at the top of the page */
+    width: 100%; /* Full width */
+    background-color: white;
+}
+
+.topbar-greeting {
+    font-size: 22px;
+    padding: 8px 16px
+}
+
+.filter-bar {
+    padding: 0px 60px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.categories {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+}
+
+.categories-title {
+    font-size: 18px;
+    font-weight: 600;
+    padding: 8px 0;
+}
+
+.watchlist {
+    font-size: 18px;
+    padding: 0px 26px;
+}
+
+.watchlist:hover {
+    font-weight: 500;
+}
+
+.content {
+    padding: 30px 60px;
+}
+
+
+/* Index */
 .listing {
     list-style-type: none;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    margin: 0;
+    padding: 0;
 }
 
 .listing-card {
     width: 256px;
     height: 384px;
-    padding: 30px;
+    margin: 25px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
-.card-image {
+.listing-card:hover {
+    box-shadow: rgba(0, 0, 0, 0.6) 0px 5px 15px;
+}
+
+.card-img {
     width: 100%;
-    height: 100%;
+    height: 196px;
 }
 
-.description {
+.card-text {
+    padding: 10px;
+}
+
+.card-title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1; /* number of lines to show */
+           line-clamp: 1;
+    -webkit-box-orient: vertical;
+}
+
+.card-description {
    overflow: hidden;
    text-overflow: ellipsis;
    display: -webkit-box;
-   -webkit-line-clamp: 2; /* number of lines to show */
-           line-clamp: 2;
+   -webkit-line-clamp: 4; /* number of lines to show */
+           line-clamp: 4;
    -webkit-box-orient: vertical;
 }
