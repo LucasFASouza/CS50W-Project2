@@ -15,6 +15,9 @@ class NewBid(forms.ModelForm):
 
         super(NewBid, self).__init__(*args, **kwargs)
 
+        for key, field in self.fields.items():
+            field.label = ""
+
     def clean(self):
         value = self.cleaned_data['value']
         if value <= self.item.price:
@@ -31,6 +34,11 @@ class NewBid(forms.ModelForm):
 
 
 class NewComment(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for key, field in self.fields.items():
+            field.label = ""
+
     class Meta:
         model = Comment
         fields = ['text']
