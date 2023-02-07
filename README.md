@@ -3,6 +3,17 @@ Design an eBay-like e-commerce auction site that will allow users to post auctio
 
 ---
 
+![Initial Page](https://user-images.githubusercontent.com/32396925/217273040-8b438ff9-c85c-4a8c-8585-bc52502d830a.png "Initial Page")
+*The Active Listings page where users can view all of the currently active auction listings. For each active listing, it's displayed the title, description, current price, and photo.*
+
+![Auction Details](https://user-images.githubusercontent.com/32396925/217273642-746af29e-a996-417b-a88a-038d1e671e6e.png "Auction Details")
+*The Listing page, where users are able to view all details about the listing, including the current price for the listing. The user can add/remove the item from their watchlist or close the auction, if they are the ones that created it.*
+
+![Auction Comments](https://user-images.githubusercontent.com/32396925/217273741-9c1bc73c-7040-4854-98ee-b1709757d934.png "Auction Comments")
+*On the Listing page, users that are logged in can comment on the auction.*
+
+---
+
 ## Specification
 Complete the implementation of your auction site. You must fulfill the following requirements:
 
